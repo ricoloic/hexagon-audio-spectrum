@@ -1,6 +1,6 @@
 import processing.sound.*;
 
-int sides = 6;
+int sides = 2;
 
 color[] COLORS = {
   #420f1b,
@@ -30,7 +30,7 @@ int MAX_FREQUENCY = 20_000;
 void setup() {
   fullScreen();
   
-  file = new SoundFile(this, "Cartoon  On  On feat Daniel Levi NCS Release.mp3");
+  file = new SoundFile(this, "Firebeatz  KSHMR  No Heroes ft Luciana Official Music Video.mp3");
   
   fft = new FFT(this);
   fft.input(file);
@@ -58,6 +58,7 @@ void draw() {
     sum *= map(j, 0, COLORS.length - 1, 1, sides - 1);
     
     int r = j == COLORS.length - 1 ? radius - 15 : radius - ((COLORS.length - j) * 15) + (int) (sum * 5);
+    r = min(radius, r);
     fill(COLORS[COLORS.length - j - 1]);
     beginShape();
     for (float i = 0; i < TWO_PI - 0.01; i += TWO_PI / sides) {
@@ -101,5 +102,16 @@ void draw() {
 
       index++;
     }
+  }
+}
+
+void keyPressed() {
+  if (keyCode == UP) {
+    if (sides < 30) sides++;
+  } else if (keyCode == DOWN) {
+    if (sides > 2) sides--;
+  } else if (keyCode == 32) {
+    if (file.isPlaying()) file.pause();
+    else file.play();
   }
 }
